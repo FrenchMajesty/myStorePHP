@@ -28,6 +28,10 @@ class Request {
 		return $this->cookies;
 	}
 
+    public function getSessions() : FilteredMap {
+        return new FilteredMap($_SESSION);
+    }
+
 	public function getUrl(): string {
 		return $this->domain . $this->path;
 	}

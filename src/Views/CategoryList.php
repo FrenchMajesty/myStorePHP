@@ -3,9 +3,7 @@ namespace Views;
 
 use Model\Product;
 
-class CategoryList {
-
-    private $categoryList;
+class CategoryList extends Views {
 
     public function __construct(string $categoryName) {
 
@@ -15,22 +13,15 @@ class CategoryList {
         if(count($allProducts) > 0) {
             foreach($allProducts as $prod) {
                 $tpl = new CategoryListItem($prod);
-                $this->categoryList .= $tpl->output();
+                $this->value .= $tpl->output();
             }
 
         }else {
-            $this->categoryList = $this->stylize("There are no products in this category.");
+            $this->value = $this->stylize("There are no products in this category.");
         }
 
     }
 
-    public function value(): string {
-        return $this->categoryList;
-    }
-
-    private function stylize(string $text): string {
-        return "<center><h4>" . $text . "</h4></center>";
-    }
 }
 
 ?>

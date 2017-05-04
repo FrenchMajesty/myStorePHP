@@ -4,18 +4,28 @@ namespace Core;
 use PDO;
 
 class Database {
-	private $host = "localhost";
-	private $username = "root";
-	private $password = "";
-	private $db_name = "store";
-	private static $conn = NULL;
+	private static $host;
+    private static $username;
+    private static $password;
+    private static $db_name;
+    private static $conn = NULL;
+
+    public function __construct($dbConfig = null) {
+
+        if(!is_null($dbConfig)) {
+            self::$host = $dbConfig["host"];
+            self::$username = $dbConfig["username"];
+            self::$password = $dbConfig["password"];
+            self::$db_name = $dbConfig["dbname"];
+        }
+    }
 
 	public function getConnection() {
 
 		if(!self::$conn) {
 			try {
 
-		     	self::$conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";port=3306", $this->username, $this->password);
+		     	self::$conn = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$db_name . ";port=3306", self::$username, self::$password);
 		        self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		    }catch(PDOException $e) {
@@ -28,7 +38,7 @@ class Database {
 
 	public function runQuery($query) {
 		try {
-			$stmt = $this->conn->prepare($query);
+			$stmt = self::$conn->prepare($query);
 			$stmt->execute();
 
 		} catch(PDOException $e) {
@@ -41,7 +51,7 @@ class Database {
 	public function getRows($query) {
 		try {
 
-		$stmt = $this->conn->prepare($query);
+		$stmt = self::$conn->prepare($query);
 		$stmt->execute();
 
 

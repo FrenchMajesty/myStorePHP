@@ -1,26 +1,5 @@
 <div id="content" class="container">
-	<div class="top">
-
-		<div class="slideshow">
-			<div id="slider">
-				<img src="images/img1.png">
-				<img src="images/img2.png">
-				<img src="images/img3.png">
-			</div>
-		</div>
-		<div class="column">
-			<div class="img">
-			<a href="view.php"><img src="https://dummyimage.com/260x150/fff700/0011ff"></a>
-			</div>
-			<div class="img2">
-			<a href="view.php"><img src="https://dummyimage.com/260x150/fff700/0011ff"></a>
-			</div>
-			<div class="img">
-			<a href="view.php"><img src="https://dummyimage.com/260x150/fff700/0011ff"></a>
-			</div>
-		</div>
-
-	</div>
+	{@spotlight}
 
 <div id="secTop" class="sections">
 <h3>Top</h3>

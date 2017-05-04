@@ -4,8 +4,7 @@ namespace Views;
 use Model\Product;
 use Model\Order;
 
-class ProductList{
-    private $productList;
+class ProductList extends Views {
 
     public function __construct(string $type) {
 
@@ -20,21 +19,14 @@ class ProductList{
         if(count($allProducts) > 0) {
             foreach($allProducts as $prod) {
                 $tpl = new ProductListItem($prod);
-                $this->productList .= $tpl->output();
+                $this->value .= $tpl->output();
             }
 
         }else {
-            $this->productList = $this->stylize("There are no products.");
+            $this->value = $this->stylize("There are no products.");
         }
 
     }
 
-    public function value() {
-        return $this->productList;
-    }
-
-    private function stylize(string $text): string {
-        return "<center><h4>" . $text . "</h4></center>";
-    }
 }
 ?>

@@ -146,11 +146,35 @@ class Product {
         return $allProducts;
     }
 
+    public function loadRandom(int $limit = 6): array {
+        $randomProducts = [];
+
+        try {
+            $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $stmt = $this->conn->prepare("SELECT id FROM products ORDER BY RAND() LIMIT :max");
+            $stmt->bindParam(":max", $limit);
+            $stmt->execute();
+
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($products as $entry) {
+                $randomProducts[] = new Product($entry["id"]);
+            }
+
+        }catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $randomProducts;
+    }
+
     public function getLatest(int $limit = 4): array {
         $newest = [];
 
         try {
-            $stmt = $this->conn->prepare("SELECT id FROM products ORDER BY id DESC");
+            $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $stmt = $this->conn->prepare("SELECT id FROM products ORDER BY id DESC LIMIT :max");
+            $stmt->bindParam(":max", $limit);
             $stmt->execute();
 
             $latest = $stmt->fetchAll(PDO::FETCH_ASSOC);

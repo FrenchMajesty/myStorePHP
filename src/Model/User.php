@@ -65,7 +65,7 @@ class User {
 
     public function login($email, $password): bool {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email=:email");
+            $stmt = $this->conn->prepare("SELECT email, password FROM users WHERE email=:email");
             $stmt->bindparam(":email", $email);
             $stmt->execute();
 
@@ -141,7 +141,7 @@ class User {
     public function doesUserExist($email): bool {
 
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email= :email");
+            $stmt = $this->conn->prepare("SELECT id FROM users WHERE email= :email");
             $stmt->bindParam(":email", $email);
 
             $stmt->execute();
@@ -157,7 +157,7 @@ class User {
     public function loadAll(): array {
         $userList = [];
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM users");
+            $stmt = $this->conn->prepare("SELECT id FROM users");
             $stmt->execute();
 
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -181,11 +181,12 @@ class User {
         return $token;
     }
 
-    private function loadUser() {
-        // Retrieve from db
+    private function loadUser($id = null) {
+        $id = $id ?: $this->id;
+
         try {
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE id=:id");
-            $stmt->bindParam(":id", $this->id);
+            $stmt->bindParam(":id", $id);
             $stmt->execute();
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);

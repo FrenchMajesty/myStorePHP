@@ -5,7 +5,12 @@
 
 $sitename = "Bloomify";
 $sitelink = "http://verdiks-macbook-air-2.local/nstore";
-$dbConfig = [];
+$dbConfig = [
+    "host" => "localhost",
+    "username" => "root",
+    "password" => "",
+    "dbname" => "store",
+];
 
 spl_autoload_register(function ($classname) {
 	$classname = str_replace("\\","/", $classname);
@@ -15,8 +20,6 @@ spl_autoload_register(function ($classname) {
 
 
 // Initialize DB Connection
-$Database = new Core\Database();
+$Database = new Core\Database($dbConfig);
 $Database->getConnection();
-
-// $System = new Helper();
 ?>

@@ -7,14 +7,20 @@ require_once("./config.php");
 require_once("./session.php");
 
 $router = new Buki\Router();
+$request = new Core\Request();
 
 $layout = new Core\Template("layout");
 $layout->set("sitename", $sitename);
 $layout->set("sitelink", $sitelink);
 
+
 $router->get("/", function() use (&$layout) {
 
 	$index = new Core\Template("index");
+
+    // Highlighted products
+    $highlighted = new Views\IndexSpotlight();
+    $index->set("spotlight", $highlighted->value());
 
 	// Products list
 	$productList = new Views\ProductList("New");
@@ -130,7 +136,7 @@ $panel->set('sitelink', $sitelink);
 $panel->set('sitename', $sitename);
 
 
-$router->group('admin',function($r) use (&$panel) {
+$router->group('admin', function($r) use (&$panel) {
 
 
 	$r->get('/', function() use (&$panel) {
@@ -249,6 +255,32 @@ $router->group('admin',function($r) use (&$panel) {
 		echo $panel->output();
 	});
 });
+
+// *** MIDDLEWARES *** //
+
+function isLoggedIn() {
+    $user = new Model\User();
+
+    if($user->isLoggedIn())
+        $user->loadUser($request->getSessions->get('user_session'));
+    else
+        echo 'not logged in';//$user->redirectTo('/nstore/login');
+}
+
+function isAdmin() {
+    $user = new Model\User();
+
+    if($user->isLoggedIn())
+        $user->loadUser($request->getSessions->get('user_session'));
+    else
+        echo 'not logged in';//$user->redirectTo('/nstore/login');
+
+    if(!$user->isAdmin())  echo 'not admin';//$user->redirectTo('/nstore/');
+}
+
+function restrictIfConnected() {
+
+}
 
 $router->run();
 ?>
