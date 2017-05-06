@@ -5,6 +5,11 @@
     })
 
     // Index page price highlight
+    const priceContainer = document.querySelectorAll('.description > div')
+    priceContainer.forEach(container => container.addEventListener('hover', () => {
+        console.log(this)
+    }))
+
     $('div[id^=text]').hover(function () {
         $(this).find('p, a').css('color', '#FF6E27');
     }, function() {

@@ -29,7 +29,7 @@
 
 	<div class="row" style="text-align: center">
 			<ul id="navbar">
-				<li class="bar"><a href="{@sitelink}/" class="big active">Home</a></li>
+				<li class="bar"><a href="{@sitelink}/" class="big">Home</a></li>
 				<li class="bar"><a href="{@sitelink}/category/men/" class="big">Men</a></li>
 				<li class="bar"><a href="{@sitelink}/category/women/" class="big">Women</a></li>
 				<li class="bar"><a href="{@sitelink}/contact" class="big">Contact Us</a></li>
@@ -76,5 +76,13 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="{@sitelink}/source/js/script.js"></script>
 <script src="{@sitelink}/source/js/image-slider.js"></script>
+<script>
+    // Highlight page in navbar
+    $(function() {
+         $("li.bar a").each((i, link) => {
+             if(link.innerHTML.search(/^{@pageName}/i) != -1) link.classList.add('active')
+         })
+      })
+</script>
 </body>
 </html>

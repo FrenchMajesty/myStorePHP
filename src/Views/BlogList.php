@@ -7,6 +7,8 @@ class BlogList extends Views {
 
     public function __construct(int $length = 3) {
 
+
+
         for($i = 0; $i < $length; $i++) {
     		$blog = new BlogPost();
     		$tpl = new BlogListItem($blog);

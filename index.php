@@ -48,7 +48,7 @@ $router->get("/category/{u}/", function($category) use (&$layout) {
 	$cat->set("itemList", $productList->value());
 
 	// Finalize page
-	$layout->set("pageName", "Home");
+	$layout->set("pageName", $category);
 	$layout->set("pageContent", $cat->output());
 	echo $layout->output();
 });
@@ -113,7 +113,7 @@ $router->post("/register", function() use (&$layout) {
 	$u = new Model\User(); // from middleware
 
 	if($user->create())
-		echo 'success';
+		$u->redirectTo("login");
 	else
 		echo $user->displayErrors();
 
